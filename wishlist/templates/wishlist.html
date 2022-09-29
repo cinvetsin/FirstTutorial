@@ -1,25 +1,50 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h5>Nama: </h5>
-<b>{{nama}}</b>
-
-<table>
-    <tr>
-    <th>Nama Barang</th>
-    <th>Harga Barang</th>
-    <th>Deskripsi</th>
-    </tr>
-    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
-    {% for barang in list_barang %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <nav class="navbar" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" style="font-weight: bold;">Welcome to Your Wishlist, {{nama}}</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">{{ nama }}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'wishlist:logout' %}">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <h5 style="text-align: center;">Nama: </h5>
+      <p style="text-align: center;">{{nama}}</p>
+      <h5 style="text-align: center;">NPM: </h5>
+      <p style="text-align: center;">2106632226</p>
+      <table class="table table-striped">
         <tr>
-            <th>{{barang.nama_barang}}</th>
-            <th>{{barang.harga_barang}}</th>
-            <th>{{barang.deskripsi}}</th>
+        <th>Nama Barang</th>
+        <th>Harga Barang</th>
+        <th>Deskripsi</th>
         </tr>
-    {% endfor %}
-</table>
-<h5>Sesi terakhir login: {{ last_login }}</h5>
-<button><a href="{% url 'wishlist:logout' %}">Logout</a></button>
-
-{% endblock content %}
+        {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
+        {% for barang in list_barang %}
+            <tr>
+                <td>{{barang.nama_barang}}</td>
+                <td>{{barang.harga_barang}}</td>
+                <td>{{barang.deskripsi}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <h6>Sesi terakhir login: {{ last_login }}</h6>
+</body>
+</html>
