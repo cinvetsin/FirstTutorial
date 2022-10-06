@@ -80,9 +80,9 @@
       $(document).ready(function () {
             $("form").submit(function (event) {
             var formData = {
-                name: $("#nama_barang").val(),
-                email: $("#harga_barang").val(),
-                superheroAlias: $("#deskripsi").val(),
+                nama: $("#nama_barang").val(),
+                harga: $("#harga_barang").val(),
+                deskripsi: $("#deskripsi").val(),
             };
         
             $.ajax({
