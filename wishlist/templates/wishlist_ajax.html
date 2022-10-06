@@ -47,10 +47,10 @@
         <tbody class="table-group-divider"></tbody>
     </table>
     <h6>Sesi terakhir login: {{ last_login }}</h6>
-    <h2>Tambah Wishlist</h2>
+    <h2 style="text-align: center;">Tambah Wishlist</h2>
     <form method="POST" action="">
       {% csrf_token %}
-      <table>
+      <table style="align-items: center;">
           {{ form.as_table }}
           <tr>
               <td></td>
