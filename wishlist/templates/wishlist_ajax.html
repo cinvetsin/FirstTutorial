@@ -47,13 +47,14 @@
         <tbody class="table-group-divider"></tbody>
     </table>
     <h6>Sesi terakhir login: {{ last_login }}</h6>
+    <h2>Tambah Wishlist</h2>
     <form method="POST" action="">
       {% csrf_token %}
       <table>
           {{ form.as_table }}
           <tr>
               <td></td>
-              <td><input class=submit type="submit" value="Tambah"></td>
+              <td><input class="btn btn-primary" type="submit" value="Tambah"></td>
           </tr>
       </table>
     </form>
