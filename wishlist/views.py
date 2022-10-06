@@ -11,8 +11,14 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django import forms
 
 # Create your views here.
+class BarangForm(forms.Form):
+    nama_barang = forms.CharField(label="Nama Barang")
+    harga_barang = forms.IntegerField(label="Harga Barang")
+    deskripsi = forms.CharField(label="Deskripsi", widget=forms.Textarea)
+
 @login_required(login_url='/wishlist/login/')
 def show_wishlist(request):
     data_barang_wishlist = BarangWishlist.objects.all()
@@ -22,7 +28,29 @@ def show_wishlist(request):
         'last_login': request.COOKIES['last_login'],
     }
     return render(request, "wishlist.html", context)
-    
+
+@login_required(login_url='/wishlist/login/')
+def show_wishlist_ajax(request):
+    data_barang_wishlist = BarangWishlist.objects.all()
+    if request.method == "POST":
+        form = BarangForm(request.POST)
+        if form.is_valid():
+            lists = BarangWishlist(nama_barang = form.cleaned_data["nama_barang"],
+                        harga_barang = form.cleaned_data["harga_barang"],
+                        deskripsi = form.cleaned_data["deskripsi"],)
+            lists.save()
+            messages.success(request, "Barang Berhasil Disimpan")
+            return redirect("wishlist:show_wishlist_ajax")
+    form = BarangForm()
+    context = {
+        'list_barang': data_barang_wishlist,
+        'nama': 'Sasha Nabila Fortuna',
+        'last_login': request.COOKIES['last_login'],
+        'form': form,
+    }
+
+    return render(request, "wishlist_ajax.html", context)
+
 def register(request):
     form = UserCreationForm()
 

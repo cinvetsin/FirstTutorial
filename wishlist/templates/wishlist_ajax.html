@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Wishlist</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   </head>
   <body>
@@ -44,7 +44,59 @@
                 <td>{{barang.deskripsi}}</td>
             </tr>
         {% endfor %}
+        <tbody class="table-group-divider"></tbody>
     </table>
     <h6>Sesi terakhir login: {{ last_login }}</h6>
+    <form method="POST" action="">
+      {% csrf_token %}
+      <table>
+          {{ form.as_table }}
+          <tr>
+              <td></td>
+              <td><input class=submit type="submit" value="Tambah"></td>
+          </tr>
+      </table>
+    </form>
+    <script type="text/javascript">
+      $.getJSON("{% url 'wishlist:send_wishlist_json' %}", function(data) {
+              $(data).each(function(i, entry) {
+                  $("#wishlisttable > tbody").append($("<tr>")
+                      .append($("<td>").append(entry.fields.nama_barang))
+                      .append($("<td>").append(entry.fields.harga_barang))
+                      .append($("<td>").append(entry.fields.deskripsi)));
+              })
+              })
+  
+      .done(function(){
+          console.log("data loaded!");
+      })
+  
+      .fail(function(e){
+          console.log('error:');
+          console.error(e);
+      });
+
+      $(document).ready(function () {
+            $("form").submit(function (event) {
+            var formData = {
+                name: $("#nama_barang").val(),
+                email: $("#harga_barang").val(),
+                superheroAlias: $("#deskripsi").val(),
+            };
+        
+            $.ajax({
+                type: "POST",
+                url: "{% url 'wishlist:show_wishlist_ajax' %}",
+                data: formData,
+                dataType: "json",
+                encode: true,
+            }).done(function (data) {
+                console.log(data);
+            });
+        
+            event.preventDefault();
+            });
+      });
+  </script>
 </body>
 </html>
